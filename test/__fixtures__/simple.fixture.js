@@ -1,5 +1,5 @@
 module.exports = `
-<heml>
+<heml breakpoint="333px">
   <head>
     <subject>Welcome to HEML!</subject>
     <style>
@@ -9,7 +9,19 @@ module.exports = `
   </head>
   <body>
     <container>
-      <marquee><h1>Explore the world of email! 💌</h1></marquee>
+      <row>
+        <column>
+          <marquee><h1>Explore the world of email! 💌</h1></marquee>
+        </column>
+      </row>
+      <row>
+        <column>
+          Responsively
+        </column>
+        <column>
+          🎉
+        </column>
+      </row>
     </container>
   </body>
 </heml>

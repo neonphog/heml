@@ -1,14 +1,30 @@
-import HEML, { createElement } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, correctBreakpoint } from '@heml/utils' // eslint-disable-line no-unused-vars
+import { isUndefined } from 'lodash'
 
 export default createElement('heml', {
   unique: true,
   parent: [],
   children: [ 'head', 'body' ],
+  attrs: [ 'breakpoint' ],
   defaultAttrs: {
     'lang': 'en',
     'xmlns': 'http://www.w3.org/1999/xhtml',
     'xmlns:v': 'urn:schemas-microsoft-com:vml',
     'xmlns:o': 'urn:schemas-microsoft-com:office:office'
+  },
+
+  preRender ({ $ }) {
+    let breakpoint = '600px'
+    $.findNodes('heml').forEach($heml => {
+      breakpoint = $heml.attr('breakpoint')
+      $heml.attr('breakpoint', null)
+    })
+    breakpoint = correctBreakpoint(breakpoint)
+    $.findNodes('column').forEach($column => {
+      if (isUndefined($column.attr('breakpoint'))) {
+        $column.attr('breakpoint', breakpoint)
+      }
+    })
   },
 
   render (attrs, contents) {

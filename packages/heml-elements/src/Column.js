@@ -1,5 +1,6 @@
-import HEML, { createElement, transforms, cssGroups } from '@heml/utils' // eslint-disable-line no-unused-vars
+import HEML, { createElement, transforms, cssGroups, correctBreakpoint } from '@heml/utils' // eslint-disable-line no-unused-vars
 import Style from './Style'
+import { isUndefined } from 'lodash'
 
 const {
   background,
@@ -7,8 +8,6 @@ const {
   padding,
   border,
   borderRadius } = cssGroups
-
-const breakpoint = 600
 
 export default createElement('column', {
   attrs: [ 'small', 'large' ],
@@ -21,11 +20,14 @@ export default createElement('column', {
   },
 
   render (attrs, contents) {
+    const breakpoint = correctBreakpoint(
+      isUndefined(attrs.breakpoint) ? '600px' : attrs.breakpoint)
     const small = parseInt(attrs.small, 10)
     const large = parseInt(attrs.large, 10)
     const largeWidth = `${Math.round((100 * large) / 12)}%`
     attrs.class += ` column col-sm-${small}`
 
+    delete attrs.breakpoint
     delete attrs.large
     delete attrs.small
 
@@ -34,7 +36,7 @@ export default createElement('column', {
         {contents.length === 0 ? '&nbsp;' : contents}
       </td>,
       small === large ? '' : (<Style for='column' heml-embed>{`
-         @media only screen and (max-width: ${breakpoint}px) {
+         @media only screen and (max-width: ${breakpoint}) {
           .column, .column-filler { float: left; box-sizing: border-box; }
           .col-sm-${small} {
             width: ${Math.round((100 * small) / 12)}% !important;

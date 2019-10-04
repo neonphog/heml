@@ -3,6 +3,7 @@
   "scripts": {
     "lint": "standard 'packages/**/src/**/*.js' 'test/**/*.js' --fix",
     "test": "npm run bootstrap && npm run build && npm run lint && jest ./test/*.spec.js",
+    "updateSnapshot": "jest --updateSnapshot",
     "bootstrap": "npm install && lerna bootstrap",
     "clean": "gulp clean && lerna clean --yes",
     "build": "gulp build",
